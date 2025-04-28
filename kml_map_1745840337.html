@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_85e2bd1aa7391aa6c4098de4f4e466e7 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"/>
+    
+            <style>
+                #export {
+                    position: absolute;
+                    top: 5px;
+                    right: 10px;
+                    z-index: 999;
+                    background: white;
+                    color: black;
+                    padding: 6px;
+                    border-radius: 4px;
+                    font-family: 'Helvetica Neue';
+                    cursor: pointer;
+                    font-size: 12px;
+                    text-decoration: none;
+                    top: 90px;
+                }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_85e2bd1aa7391aa6c4098de4f4e466e7" ></div>
+        
+    <a href='#' id='export'>Export</a>
+</body>
+<script>
+    
+    
+            var map_85e2bd1aa7391aa6c4098de4f4e466e7 = L.map(
+                "map_85e2bd1aa7391aa6c4098de4f4e466e7",
+                {
+                    center: [24.40657815243856, 121.22313905545099],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_697afc725570923c24833035f4ac1daf = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_697afc725570923c24833035f4ac1daf.addTo(map_85e2bd1aa7391aa6c4098de4f4e466e7);
+        
+    
+            var options = {
+              position: "topleft",
+              draw: {},
+              edit: {},
+            }
+                // FeatureGroup is to store editable layers.
+                var drawnItems_draw_control_3c8e2dca2ba0a1ac6f2072c6c391e9c8 =
+                    new L.featureGroup().addTo(
+                        map_85e2bd1aa7391aa6c4098de4f4e466e7
+                    );
+
+            options.edit.featureGroup = drawnItems_draw_control_3c8e2dca2ba0a1ac6f2072c6c391e9c8;
+            var draw_control_3c8e2dca2ba0a1ac6f2072c6c391e9c8 = new L.Control.Draw(
+                options
+            ).addTo( map_85e2bd1aa7391aa6c4098de4f4e466e7 );
+            map_85e2bd1aa7391aa6c4098de4f4e466e7.on(L.Draw.Event.CREATED, function(e) {
+                var layer = e.layer,
+                    type = e.layerType;
+                var coords = JSON.stringify(layer.toGeoJSON());
+                layer.on('click', function() {
+                    alert(coords);
+                    console.log(coords);
+                });
+                drawnItems_draw_control_3c8e2dca2ba0a1ac6f2072c6c391e9c8.addLayer(layer);
+            });
+            map_85e2bd1aa7391aa6c4098de4f4e466e7.on('draw:created', function(e) {
+                drawnItems_draw_control_3c8e2dca2ba0a1ac6f2072c6c391e9c8.addLayer(e.layer);
+            });
+
+            
+            document.getElementById('export').onclick = function(e) {
+                var data = drawnItems_draw_control_3c8e2dca2ba0a1ac6f2072c6c391e9c8.toGeoJSON();
+                var convertedData = 'text/json;charset=utf-8,'
+                    + encodeURIComponent(JSON.stringify(data));
+                document.getElementById('export').setAttribute(
+                    'href', 'data:' + convertedData
+                );
+                document.getElementById('export').setAttribute(
+                    'download', "data.geojson"
+                );
+            }
+            
+        
+    
+            var feature_group_272ff303a365699c9abbcf1710813b02 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var polygon_62ea37b6c04a154d6858bd33625e2733 = L.polygon(
+                [[25.06192666477378, 121.51984690241616], [25.005156193726926, 121.53375147394935], [24.994888044779117, 121.58215998225005], [25.060216157883378, 121.58456324152738], [25.06192666477378, 121.51984690241616]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_272ff303a365699c9abbcf1710813b02);
+        
+    
+        var popup_f6322b5082ce83bf2cbf9f2c1c1d5f3c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1b15da957fb1cf9a50ad49d55d2af81d = $(`<div id="html_1b15da957fb1cf9a50ad49d55d2af81d" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">台北市大安區信義區</h4>                           <p><b>申請案號:</b> AB2411040001</p>                           <p><b>有效期限:</b> 2025/04/15​ ~ 2025/07/14</p>                           <p><b>高度:</b> 0-2900ft</p>                       </div>                       </div>`)[0];
+                popup_f6322b5082ce83bf2cbf9f2c1c1d5f3c.setContent(html_1b15da957fb1cf9a50ad49d55d2af81d);
+            
+        
+
+        polygon_62ea37b6c04a154d6858bd33625e2733.bindPopup(popup_f6322b5082ce83bf2cbf9f2c1c1d5f3c)
+        ;
+
+        
+    
+    
+            polygon_62ea37b6c04a154d6858bd33625e2733.bindTooltip(
+                `<div>
+                     台北市大安區信義區 - AB2411040001 - 0-2900ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_272ff303a365699c9abbcf1710813b02.addTo(map_85e2bd1aa7391aa6c4098de4f4e466e7);
+        
+    
+            var feature_group_ba49b1fe58c50d1058949be7421de7d7 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var polygon_067d1b8f3b2326628b50afb42fa71b45 = L.polygon(
+                [[24.725542313458035, 121.6004068181972], [24.700014487261875, 121.98721086244379], [24.978681688283878, 121.99326997260845], [24.9761919826872, 121.91705232124131], [24.91455571993111, 121.84838777045996], [24.725542313458035, 121.6004068181972]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_ba49b1fe58c50d1058949be7421de7d7);
+        
+    
+        var popup_c368adaf237172a34cb949a3f610e163 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ed6a3e6b34a11df7753057b25c51847f = $(`<div id="html_ed6a3e6b34a11df7753057b25c51847f" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">宜蘭溪北</h4>                           <p><b>申請案號:</b> AB2411030001</p>                           <p><b>有效期限:</b> 2025/04/15​ ~ 2025/07/14</p>                           <p><b>高度:</b> 0-400ft</p>                       </div>                       </div>`)[0];
+                popup_c368adaf237172a34cb949a3f610e163.setContent(html_ed6a3e6b34a11df7753057b25c51847f);
+            
+        
+
+        polygon_067d1b8f3b2326628b50afb42fa71b45.bindPopup(popup_c368adaf237172a34cb949a3f610e163)
+        ;
+
+        
+    
+    
+            polygon_067d1b8f3b2326628b50afb42fa71b45.bindTooltip(
+                `<div>
+                     宜蘭溪北 - AB2411030001 - 0-400ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_315b0ee3a16f67b7d504f8bd974d9f08 = L.polygon(
+                [[24.72181470496287, 121.59482782344621], [24.552810299838438, 121.43363242606912], [24.381550174346515, 121.91625302295482], [24.722438417169563, 121.92167108516492], [24.72181470496287, 121.59482782344621]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_ba49b1fe58c50d1058949be7421de7d7);
+        
+    
+        var popup_24ea000267c32e28e4bed774b33ebb1d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8a9173a288d0da4c0f77f28f7c820c91 = $(`<div id="html_8a9173a288d0da4c0f77f28f7c820c91" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">宜蘭溪南</h4>                           <p><b>申請案號:</b> AB2411030001</p>                           <p><b>有效期限:</b> 2025/04/15​ ~ 2025/07/14</p>                           <p><b>高度:</b> 0-400ft</p>                       </div>                       </div>`)[0];
+                popup_24ea000267c32e28e4bed774b33ebb1d.setContent(html_8a9173a288d0da4c0f77f28f7c820c91);
+            
+        
+
+        polygon_315b0ee3a16f67b7d504f8bd974d9f08.bindPopup(popup_24ea000267c32e28e4bed774b33ebb1d)
+        ;
+
+        
+    
+    
+            polygon_315b0ee3a16f67b7d504f8bd974d9f08.bindTooltip(
+                `<div>
+                     宜蘭溪南 - AB2411030001 - 0-400ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_8e8b603e8df7f3df87f13224c0f10e15 = L.polygon(
+                [[24.820778273140252, 120.9793332741717], [24.786340759177985, 120.94070946435718], [24.78306791866084, 120.99237953882016], [24.776210258640262, 121.00782906274587], [24.80519687256684, 121.01400887231628], [24.820778273140252, 120.9793332741717]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_ba49b1fe58c50d1058949be7421de7d7);
+        
+    
+        var popup_1a1588a29be3d9ba7e9a0d7a0ed9ca1a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ce03c24fbe248651521857b2475c0c2b = $(`<div id="html_ce03c24fbe248651521857b2475c0c2b" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">新竹市東區</h4>                           <p><b>申請案號:</b> AB2411030001</p>                           <p><b>有效期限:</b> 2025/04/15​ ~ 2025/07/14</p>                           <p><b>高度:</b> 0-400ft</p>                       </div>                       </div>`)[0];
+                popup_1a1588a29be3d9ba7e9a0d7a0ed9ca1a.setContent(html_ce03c24fbe248651521857b2475c0c2b);
+            
+        
+
+        polygon_8e8b603e8df7f3df87f13224c0f10e15.bindPopup(popup_1a1588a29be3d9ba7e9a0d7a0ed9ca1a)
+        ;
+
+        
+    
+    
+            polygon_8e8b603e8df7f3df87f13224c0f10e15.bindTooltip(
+                `<div>
+                     新竹市東區 - AB2411030001 - 0-400ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_ba49b1fe58c50d1058949be7421de7d7.addTo(map_85e2bd1aa7391aa6c4098de4f4e466e7);
+        
+    
+            var feature_group_9f31dd008a4761bbce4217e8a34fdd3d = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var polygon_a317533a526e6491e96c7019c0d0ec60 = L.polygon(
+                [[24.189980021702063, 120.62338536243234], [24.106021209973598, 120.62166874866286], [24.105394444420934, 120.745608262823], [24.205637870225885, 120.7476681993464], [24.209082338823514, 120.66939061145584], [24.189980021702063, 120.62338536243234]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_9f31dd008a4761bbce4217e8a34fdd3d);
+        
+    
+        var popup_fb4399abbf4265c1cb1333d686b99a92 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_160475909c368d266f96f3c3bd06a8a5 = $(`<div id="html_160475909c368d266f96f3c3bd06a8a5" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">台中市區</h4>                           <p><b>申請案號:</b> AB2411050002</p>                           <p><b>有效期限:</b> 2025/04/15​ ~ 2025/07/14</p>                           <p><b>高度:</b> 0-2000ft</p>                       </div>                       </div>`)[0];
+                popup_fb4399abbf4265c1cb1333d686b99a92.setContent(html_160475909c368d266f96f3c3bd06a8a5);
+            
+        
+
+        polygon_a317533a526e6491e96c7019c0d0ec60.bindPopup(popup_fb4399abbf4265c1cb1333d686b99a92)
+        ;
+
+        
+    
+    
+            polygon_a317533a526e6491e96c7019c0d0ec60.bindTooltip(
+                `<div>
+                     台中市區 - AB2411050002 - 0-2000ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_e8cc4789b396b19ea4fac80dbf851462 = L.polygon(
+                [[22.969467030522626, 120.25602086000241], [23.08768850153805, 120.25739012770453], [23.075054924507555, 120.10632811598576], [22.933635984714723, 120.10958968214783], [22.969467030522626, 120.20641072206298], [22.969467030522626, 120.25602086000241]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_9f31dd008a4761bbce4217e8a34fdd3d);
+        
+    
+        var popup_eb1bae6720d4854917fe0eed03a21762 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3f1ba7b42c401b3ddadb1e1f6fa7feab = $(`<div id="html_3f1ba7b42c401b3ddadb1e1f6fa7feab" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">台南市區</h4>                           <p><b>申請案號:</b> AB2411050002</p>                           <p><b>有效期限:</b> 2025/04/15​ ~ 2025/07/14</p>                           <p><b>高度:</b> 0-2000ft</p>                       </div>                       </div>`)[0];
+                popup_eb1bae6720d4854917fe0eed03a21762.setContent(html_3f1ba7b42c401b3ddadb1e1f6fa7feab);
+            
+        
+
+        polygon_e8cc4789b396b19ea4fac80dbf851462.bindPopup(popup_eb1bae6720d4854917fe0eed03a21762)
+        ;
+
+        
+    
+    
+            polygon_e8cc4789b396b19ea4fac80dbf851462.bindTooltip(
+                `<div>
+                     台南市區 - AB2411050002 - 0-2000ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_93772c26b2c345175cb8e401b0cafca3 = L.polygon(
+                [[22.631316326651202, 120.20263417176999], [22.534941547629348, 120.19988893084329], [22.524159431559866, 120.36605714373393], [22.579654059003897, 120.32897694520743], [22.62402773439678, 120.32863362245364], [22.631316326651202, 120.20263417176999]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_9f31dd008a4761bbce4217e8a34fdd3d);
+        
+    
+        var popup_c0e7910ee8938867535c6004d6f73fb5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a3d546ac93a502dbfabb8014bc0d4da9 = $(`<div id="html_a3d546ac93a502dbfabb8014bc0d4da9" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">高雄港三里內（大）</h4>                           <p><b>申請案號:</b> AB2411050002</p>                           <p><b>有效期限:</b> 2025/04/15​ ~ 2025/07/14</p>                           <p><b>高度:</b> 0-2000ft</p>                       </div>                       </div>`)[0];
+                popup_c0e7910ee8938867535c6004d6f73fb5.setContent(html_a3d546ac93a502dbfabb8014bc0d4da9);
+            
+        
+
+        polygon_93772c26b2c345175cb8e401b0cafca3.bindPopup(popup_c0e7910ee8938867535c6004d6f73fb5)
+        ;
+
+        
+    
+    
+            polygon_93772c26b2c345175cb8e401b0cafca3.bindTooltip(
+                `<div>
+                     高雄港三里內（大） - AB2411050002 - 0-2000ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_9f31dd008a4761bbce4217e8a34fdd3d.addTo(map_85e2bd1aa7391aa6c4098de4f4e466e7);
+        
+    
+            var feature_group_7cc5b9e55ff040101f22c71e7a291226 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var polygon_f0044530d43eea8947ed9deaeaacdbd6 = L.polygon(
+                [[25.096492911345006, 121.48900596062943], [25.039116337146616, 121.48831931512159], [25.049691817623533, 121.51887504021923], [25.041293716507884, 121.53672782342232], [25.079080640422283, 121.5370711461762], [25.096492911345006, 121.48900596062943]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_7cc5b9e55ff040101f22c71e7a291226);
+        
+    
+        var popup_bf636ca26ea913987e3e2d900f67988b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_86d65fa796ca19e240668ff726efbee6 = $(`<div id="html_86d65fa796ca19e240668ff726efbee6" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">台北市大同區中正區</h4>                           <p><b>申請案號:</b> AB2411070001</p>                           <p><b>有效期限:</b> 2025/04/15​ ~ 2025/07/14</p>                           <p><b>高度:</b> 0-2000ft</p>                       </div>                       </div>`)[0];
+                popup_bf636ca26ea913987e3e2d900f67988b.setContent(html_86d65fa796ca19e240668ff726efbee6);
+            
+        
+
+        polygon_f0044530d43eea8947ed9deaeaacdbd6.bindPopup(popup_bf636ca26ea913987e3e2d900f67988b)
+        ;
+
+        
+    
+    
+            polygon_f0044530d43eea8947ed9deaeaacdbd6.bindTooltip(
+                `<div>
+                     台北市大同區中正區 - AB2411070001 - 0-2000ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_5fe8ff255c6d069aee050b8d47b497c5 = L.polygon(
+                [[25.075828815037923, 121.5707679700116], [25.037240149960887, 121.57058457397018], [25.032695648562456, 121.64857784770528], [25.09994921107739, 121.6491719570021], [25.101657948445162, 121.5838366981605], [25.075906555959673, 121.58372840397156], [25.075828815037923, 121.5707679700116]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_7cc5b9e55ff040101f22c71e7a291226);
+        
+    
+        var popup_eb736a71cedb61eb31ee9312a336328c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c5a70605320d6e419aa95d10943cd418 = $(`<div id="html_c5a70605320d6e419aa95d10943cd418" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">台北市南港區內湖區</h4>                           <p><b>申請案號:</b> AB2411070001</p>                           <p><b>有效期限:</b> 2025/04/15​ ~ 2025/07/14</p>                           <p><b>高度:</b> 0-2000ft</p>                       </div>                       </div>`)[0];
+                popup_eb736a71cedb61eb31ee9312a336328c.setContent(html_c5a70605320d6e419aa95d10943cd418);
+            
+        
+
+        polygon_5fe8ff255c6d069aee050b8d47b497c5.bindPopup(popup_eb736a71cedb61eb31ee9312a336328c)
+        ;
+
+        
+    
+    
+            polygon_5fe8ff255c6d069aee050b8d47b497c5.bindTooltip(
+                `<div>
+                     台北市南港區內湖區 - AB2411070001 - 0-2000ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_b5124f0b5b01641310e024fa8006c7c7 = L.polygon(
+                [[25.09136394994359, 121.4996911773515], [25.07307163697025, 121.5073286639853], [25.07221376884179, 121.5566349585399], [25.06298240268647, 121.6155885132125], [25.07582146437146, 121.6197870657349], [25.07596216212269, 121.5502441498335], [25.09136394994359, 121.4996911773515]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_7cc5b9e55ff040101f22c71e7a291226);
+        
+    
+        var popup_4ab8edf4abfb64af423e32bfd476c23e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_760ecc5b996f52c50b38ce1f68b26164 = $(`<div id="html_760ecc5b996f52c50b38ce1f68b26164" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">台北大佳河濱公園</h4>                           <p><b>申請案號:</b> AB2411070001</p>                           <p><b>有效期限:</b> 2025/04/15​ ~ 2025/07/14</p>                           <p><b>高度:</b> 0-2000ft</p>                       </div>                       </div>`)[0];
+                popup_4ab8edf4abfb64af423e32bfd476c23e.setContent(html_760ecc5b996f52c50b38ce1f68b26164);
+            
+        
+
+        polygon_b5124f0b5b01641310e024fa8006c7c7.bindPopup(popup_4ab8edf4abfb64af423e32bfd476c23e)
+        ;
+
+        
+    
+    
+            polygon_b5124f0b5b01641310e024fa8006c7c7.bindTooltip(
+                `<div>
+                     台北大佳河濱公園 - AB2411070001 - 0-2000ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_7cc5b9e55ff040101f22c71e7a291226.addTo(map_85e2bd1aa7391aa6c4098de4f4e466e7);
+        
+    
+            var feature_group_cb05715421292b36ae1b3bd4fb96f943 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var polygon_25b8105199f7cc78eb3e6293948ebcb5 = L.polygon(
+                [[24.939951144553206, 121.7292303640405], [24.9650607396998, 121.83085398301576], [25.130531244971742, 122.0189948521563], [25.35308540847707, 121.70840208903041], [25.32019379766075, 121.516141346843], [25.128459084702296, 121.72442384548572], [24.939951144553206, 121.7292303640405]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_cb05715421292b36ae1b3bd4fb96f943);
+        
+    
+        var popup_b87cf4bd7d0db43203fc1266d3d5f013 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5c2f5f41fea01a08defec07fa10e185d = $(`<div id="html_5c2f5f41fea01a08defec07fa10e185d" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">新北基隆</h4>                           <p><b>申請案號:</b> AB2411200006</p>                           <p><b>有效期限:</b> 2025/03/08​ ~ 2025/06/07​</p>                           <p><b>高度:</b> 0-400ft</p>                       </div>                       </div>`)[0];
+                popup_b87cf4bd7d0db43203fc1266d3d5f013.setContent(html_5c2f5f41fea01a08defec07fa10e185d);
+            
+        
+
+        polygon_25b8105199f7cc78eb3e6293948ebcb5.bindPopup(popup_b87cf4bd7d0db43203fc1266d3d5f013)
+        ;
+
+        
+    
+    
+            polygon_25b8105199f7cc78eb3e6293948ebcb5.bindTooltip(
+                `<div>
+                     新北基隆 - AB2411200006 - 0-400ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_fc1da756a846aaca4e89ec21fb3a2161 = L.polygon(
+                [[25.16234022304566, 121.48592689692272], [25.251077021551634, 121.45331123530153], [25.2095641225698, 121.44072274829476], [25.155192910227726, 121.40742044116591], [25.122765769122044, 121.33681040874903], [25.079239795133848, 121.42332774273346], [25.16234022304566, 121.48592689692272]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_cb05715421292b36ae1b3bd4fb96f943);
+        
+    
+        var popup_75b24ff73c494c13ee3c9e08aea82e08 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5c04d28adcaa29f0fae8a322d192db21 = $(`<div id="html_5c04d28adcaa29f0fae8a322d192db21" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">新北市八里區</h4>                           <p><b>申請案號:</b> AB2411200006</p>                           <p><b>有效期限:</b> 2025/03/08​ ~ 2025/06/07​</p>                           <p><b>高度:</b> 0-400ft</p>                       </div>                       </div>`)[0];
+                popup_75b24ff73c494c13ee3c9e08aea82e08.setContent(html_5c04d28adcaa29f0fae8a322d192db21);
+            
+        
+
+        polygon_fc1da756a846aaca4e89ec21fb3a2161.bindPopup(popup_75b24ff73c494c13ee3c9e08aea82e08)
+        ;
+
+        
+    
+    
+            polygon_fc1da756a846aaca4e89ec21fb3a2161.bindTooltip(
+                `<div>
+                     新北市八里區 - AB2411200006 - 0-400ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_8aa9b2e6c30bb4a08498921e3b5ca0bb = L.polygon(
+                [[24.37676665691017, 120.67631747860507], [24.097935127875516, 120.69348361630033], [24.10671007755679, 120.79167392391761], [24.297311888406878, 120.77382114071445], [24.37676665691017, 120.67631747860507]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_cb05715421292b36ae1b3bd4fb96f943);
+        
+    
+        var popup_59ff42d53e5ee53210209ca62d5eab8e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a05994be2cf9afeac5113263bed5ce8c = $(`<div id="html_a05994be2cf9afeac5113263bed5ce8c" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">台中市后里區</h4>                           <p><b>申請案號:</b> AB2411200006</p>                           <p><b>有效期限:</b> 2025/03/08​ ~ 2025/06/07​</p>                           <p><b>高度:</b> 0-400ft</p>                       </div>                       </div>`)[0];
+                popup_59ff42d53e5ee53210209ca62d5eab8e.setContent(html_a05994be2cf9afeac5113263bed5ce8c);
+            
+        
+
+        polygon_8aa9b2e6c30bb4a08498921e3b5ca0bb.bindPopup(popup_59ff42d53e5ee53210209ca62d5eab8e)
+        ;
+
+        
+    
+    
+            polygon_8aa9b2e6c30bb4a08498921e3b5ca0bb.bindTooltip(
+                `<div>
+                     台中市后里區 - AB2411200006 - 0-400ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_cb05715421292b36ae1b3bd4fb96f943.addTo(map_85e2bd1aa7391aa6c4098de4f4e466e7);
+        
+    
+            var feature_group_f08578bca71f313ae195c8c8b0ceaab0 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var polygon_14144ecb7d46a5bdf5e2d90e87c409d0 = L.polygon(
+                [[25.080739150573883, 121.04838831834593], [25.028549555524975, 120.98003691546717], [24.991533516386426, 121.01730218641549], [25.042019592973507, 121.08254893235957], [25.080739150573883, 121.04838831834593]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_f08578bca71f313ae195c8c8b0ceaab0);
+        
+    
+        var popup_4305f087314e5b7bde21f489a3a7777d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_2ee07b61603e2b7babb69cda3a3e7de2 = $(`<div id="html_2ee07b61603e2b7babb69cda3a3e7de2" style="width: 100.0%; height: 100.0%;">桃園市觀音區一</div>`)[0];
+                popup_4305f087314e5b7bde21f489a3a7777d.setContent(html_2ee07b61603e2b7babb69cda3a3e7de2);
+            
+        
+
+        polygon_14144ecb7d46a5bdf5e2d90e87c409d0.bindPopup(popup_4305f087314e5b7bde21f489a3a7777d)
+        ;
+
+        
+    
+    
+            polygon_14144ecb7d46a5bdf5e2d90e87c409d0.bindTooltip(
+                `<div>
+                     桃園市觀音區一
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_4ae06c34911554ae4c7fe27a0efea514 = L.polygon(
+                [[25.080739150573883, 121.04838831834593], [25.028549555524975, 120.98003691546717], [24.991533516386426, 121.01730218641549], [25.042019592973507, 121.08254893235957], [25.080739150573883, 121.04838831834593]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_f08578bca71f313ae195c8c8b0ceaab0);
+        
+    
+        var popup_32fbee9b8227f5f79f7a5789b514cd31 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_08f322ba4992b437319609d2c3908959 = $(`<div id="html_08f322ba4992b437319609d2c3908959" style="width: 100.0%; height: 100.0%;">桃園市觀音區二</div>`)[0];
+                popup_32fbee9b8227f5f79f7a5789b514cd31.setContent(html_08f322ba4992b437319609d2c3908959);
+            
+        
+
+        polygon_4ae06c34911554ae4c7fe27a0efea514.bindPopup(popup_32fbee9b8227f5f79f7a5789b514cd31)
+        ;
+
+        
+    
+    
+            polygon_4ae06c34911554ae4c7fe27a0efea514.bindTooltip(
+                `<div>
+                     桃園市觀音區二
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_53b3e15315fb28afbe41de1554ec1d57 = L.polygon(
+                [[24.99042725373246, 121.1882750723759], [24.976578949509836, 121.20406791905549], [25.006763134896605, 121.24372169713155], [25.026829957872298, 121.22518226842067], [24.99042725373246, 121.1882750723759]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_f08578bca71f313ae195c8c8b0ceaab0);
+        
+    
+        var popup_5a997b6a1d1585cc7c14955a11f32346 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_41e860bee3128215f43c6e420e5d2c50 = $(`<div id="html_41e860bee3128215f43c6e420e5d2c50" style="width: 100.0%; height: 100.0%;">桃園市大園區</div>`)[0];
+                popup_5a997b6a1d1585cc7c14955a11f32346.setContent(html_41e860bee3128215f43c6e420e5d2c50);
+            
+        
+
+        polygon_53b3e15315fb28afbe41de1554ec1d57.bindPopup(popup_5a997b6a1d1585cc7c14955a11f32346)
+        ;
+
+        
+    
+    
+            polygon_53b3e15315fb28afbe41de1554ec1d57.bindTooltip(
+                `<div>
+                     桃園市大園區
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_f08578bca71f313ae195c8c8b0ceaab0.addTo(map_85e2bd1aa7391aa6c4098de4f4e466e7);
+        
+    
+            var feature_group_aa983c340f5d0845a1e559a538fa3ab2 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var polygon_710c9d686541849e015c15ce301654ec = L.polygon(
+                [[23.55898531790872, 120.19121298904176], [23.52861263364437, 120.18692145461799], [23.505474330130806, 120.22400031203978], [23.513344957698784, 120.24374137038947], [23.558198549336115, 120.23859152908089], [23.55898531790872, 120.19121298904176]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_aa983c340f5d0845a1e559a538fa3ab2);
+        
+    
+        var popup_eedd20413c6b060107408107a1a0a358 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_4ce0952a69fb5e54d74a82c6db91743e = $(`<div id="html_4ce0952a69fb5e54d74a82c6db91743e" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">雲林縣北港鎮</h4>                           <p><b>申請案號:</b> AB2502170011</p>                           <p><b>有效期限:</b> 2025/03/01​ ~ 2025/05/31​</p>                           <p><b>高度:</b> 0-400ft</p>                       </div>                       </div>`)[0];
+                popup_eedd20413c6b060107408107a1a0a358.setContent(html_4ce0952a69fb5e54d74a82c6db91743e);
+            
+        
+
+        polygon_710c9d686541849e015c15ce301654ec.bindPopup(popup_eedd20413c6b060107408107a1a0a358)
+        ;
+
+        
+    
+    
+            polygon_710c9d686541849e015c15ce301654ec.bindTooltip(
+                `<div>
+                     雲林縣北港鎮 - AB2502170011 - 0-400ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_286393338c4aed91f193eb2895507089 = L.polygon(
+                [[23.283014104838525, 120.7326973449681], [23.073448268751932, 120.61322102660868], [23.02290149378609, 120.74093709106191], [23.19846981079463, 120.86315999145252], [23.283014104838525, 120.7326973449681]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_aa983c340f5d0845a1e559a538fa3ab2);
+        
+    
+        var popup_f3bdbab1fb8cf1cafc68093ef200f5bb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5036add8653af74cbc583bb08d7e9d64 = $(`<div id="html_5036add8653af74cbc583bb08d7e9d64" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">高雄市桃源區</h4>                           <p><b>申請案號:</b> AB2502170011</p>                           <p><b>有效期限:</b> 2025/03/01​ ~ 2025/05/31​</p>                           <p><b>高度:</b> 0-400ft</p>                       </div>                       </div>`)[0];
+                popup_f3bdbab1fb8cf1cafc68093ef200f5bb.setContent(html_5036add8653af74cbc583bb08d7e9d64);
+            
+        
+
+        polygon_286393338c4aed91f193eb2895507089.bindPopup(popup_f3bdbab1fb8cf1cafc68093ef200f5bb)
+        ;
+
+        
+    
+    
+            polygon_286393338c4aed91f193eb2895507089.bindTooltip(
+                `<div>
+                     高雄市桃源區 - AB2502170011 - 0-400ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_dc62fd4b7948dc8f7a0fcdc922814ebf = L.polygon(
+                [[25.122938871958763, 121.47627005691317], [25.105374921603598, 121.48553977126855], [25.095892448342255, 121.5039075386026], [25.095426078232457, 121.52399191970609], [25.12200633627476, 121.52330527419835], [25.122938871958763, 121.47627005691317]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_aa983c340f5d0845a1e559a538fa3ab2);
+        
+    
+        var popup_59b6e45176f3e3c18a6ab69464d26983 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_780584f5a33b307c7a601313fbc9adf1 = $(`<div id="html_780584f5a33b307c7a601313fbc9adf1" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">台北市士林區</h4>                           <p><b>申請案號:</b> AB2502170011</p>                           <p><b>有效期限:</b> 2025/03/01​ ~ 2025/05/31​</p>                           <p><b>高度:</b> 0-400ft</p>                       </div>                       </div>`)[0];
+                popup_59b6e45176f3e3c18a6ab69464d26983.setContent(html_780584f5a33b307c7a601313fbc9adf1);
+            
+        
+
+        polygon_dc62fd4b7948dc8f7a0fcdc922814ebf.bindPopup(popup_59b6e45176f3e3c18a6ab69464d26983)
+        ;
+
+        
+    
+    
+            polygon_dc62fd4b7948dc8f7a0fcdc922814ebf.bindTooltip(
+                `<div>
+                     台北市士林區 - AB2502170011 - 0-400ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_0d55a54a7bfb89175035669933fd5bde = L.polygon(
+                [[23.90093822357528, 120.3607929717994], [23.79543093564311, 120.31135449523693], [23.67223075218017, 120.38070569152597], [23.74138805445428, 120.55374035949444], [23.887126682092674, 120.56815991515847], [23.90093822357528, 120.3607929717994]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_aa983c340f5d0845a1e559a538fa3ab2);
+        
+    
+        var popup_23380e4c6ad7d990e28e1ff6e89e333e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b65b390a5b74bf9567998b2868ec7ee7 = $(`<div id="html_b65b390a5b74bf9567998b2868ec7ee7" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">彰化縣雲林縣西螺鎮</h4>                           <p><b>申請案號:</b> AB2502170011</p>                           <p><b>有效期限:</b> 2025/03/01​ ~ 2025/05/31​</p>                           <p><b>高度:</b> 0-400ft</p>                       </div>                       </div>`)[0];
+                popup_23380e4c6ad7d990e28e1ff6e89e333e.setContent(html_b65b390a5b74bf9567998b2868ec7ee7);
+            
+        
+
+        polygon_0d55a54a7bfb89175035669933fd5bde.bindPopup(popup_23380e4c6ad7d990e28e1ff6e89e333e)
+        ;
+
+        
+    
+    
+            polygon_0d55a54a7bfb89175035669933fd5bde.bindTooltip(
+                `<div>
+                     彰化縣雲林縣西螺鎮 - AB2502170011 - 0-400ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_aa983c340f5d0845a1e559a538fa3ab2.addTo(map_85e2bd1aa7391aa6c4098de4f4e466e7);
+        
+    
+            var feature_group_c613a93139ab84344069a5b172d43061 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var polygon_9fb0d34cdfa7cde0a1ef615033a219a9 = L.polygon(
+                [[24.23059579974028, 121.6854337450364], [24.177048486082917, 121.64354836905983], [24.155122047453986, 121.69470345939179], [24.229030408151793, 121.74379861320033], [24.23059579974028, 121.6854337450364]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_c613a93139ab84344069a5b172d43061);
+        
+    
+        var popup_4d7c0f288bcdde10f7356f5659bdd40a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_aad997a1afa1a2d5747eb5d58b5649a9 = $(`<div id="html_aad997a1afa1a2d5747eb5d58b5649a9" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">太魯閣</h4>                           <p><b>申請案號:</b> AB2502260001</p>                           <p><b>有效期限:</b> 2025/03/16​ ~ 2025/05/15​</p>                           <p><b>高度:</b> 0-4300ft</p>                       </div>                       </div>`)[0];
+                popup_4d7c0f288bcdde10f7356f5659bdd40a.setContent(html_aad997a1afa1a2d5747eb5d58b5649a9);
+            
+        
+
+        polygon_9fb0d34cdfa7cde0a1ef615033a219a9.bindPopup(popup_4d7c0f288bcdde10f7356f5659bdd40a)
+        ;
+
+        
+    
+    
+            polygon_9fb0d34cdfa7cde0a1ef615033a219a9.bindTooltip(
+                `<div>
+                     太魯閣 - AB2502260001 - 0-4300ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_2e3a0b78b5bda76cf17999c7f57fea2a = L.polygon(
+                [[24.19819392824225, 121.49540225381637], [24.175331489400136, 121.47857943887503], [24.15747714821961, 121.52801791543742], [24.15747714821961, 121.59359256143344], [24.183161553054266, 121.60732547158969], [24.19819392824225, 121.49540225381637]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_c613a93139ab84344069a5b172d43061);
+        
+    
+        var popup_56ddb4cf5949714e31d861df95cfbdc8 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3f5b01436c36d517d681ce06ba13581e = $(`<div id="html_3f5b01436c36d517d681ce06ba13581e" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">花蓮縣秀林鄉</h4>                           <p><b>申請案號:</b> AB2502260001</p>                           <p><b>有效期限:</b> 2025/03/16​ ~ 2025/05/15​</p>                           <p><b>高度:</b> 0-6200ft</p>                       </div>                       </div>`)[0];
+                popup_56ddb4cf5949714e31d861df95cfbdc8.setContent(html_3f5b01436c36d517d681ce06ba13581e);
+            
+        
+
+        polygon_2e3a0b78b5bda76cf17999c7f57fea2a.bindPopup(popup_56ddb4cf5949714e31d861df95cfbdc8)
+        ;
+
+        
+    
+    
+            polygon_2e3a0b78b5bda76cf17999c7f57fea2a.bindTooltip(
+                `<div>
+                     花蓮縣秀林鄉 - AB2502260001 - 0-6200ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_64384428e3341d62581ee74671ff82e9 = L.polygon(
+                [[24.13682964911071, 121.59819154406586], [24.056703963336805, 121.57905666495365], [24.043065876295472, 121.62180034781491], [24.06568929426181, 121.61295442248391], [24.09045187375092, 121.61673097277686], [24.108315573982253, 121.63115052844087], [24.13682964911071, 121.59819154406586]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_c613a93139ab84344069a5b172d43061);
+        
+    
+        var popup_fa1d9146a4acc79c00d2e7d91bb2e552 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_be028ec99b724cdcec7db6a8c1eaba54 = $(`<div id="html_be028ec99b724cdcec7db6a8c1eaba54" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">花蓮縣新城鄉</h4>                           <p><b>申請案號:</b> AB2502260001</p>                           <p><b>有效期限:</b> 2025/03/16​ ~ 2025/05/15​</p>                           <p><b>高度:</b> 0-5100ft</p>                       </div>                       </div>`)[0];
+                popup_fa1d9146a4acc79c00d2e7d91bb2e552.setContent(html_be028ec99b724cdcec7db6a8c1eaba54);
+            
+        
+
+        polygon_64384428e3341d62581ee74671ff82e9.bindPopup(popup_fa1d9146a4acc79c00d2e7d91bb2e552)
+        ;
+
+        
+    
+    
+            polygon_64384428e3341d62581ee74671ff82e9.bindTooltip(
+                `<div>
+                     花蓮縣新城鄉 - AB2502260001 - 0-5100ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_9fa9dbc54e96e0dd95498043f08936d3 = L.polygon(
+                [[24.009805793598122, 121.5995884720483], [23.94801392442203, 121.54868819157277], [23.92874948988748, 121.58527419308807], [23.996946852403735, 121.6291142288841], [24.009805793598122, 121.5995884720483]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_c613a93139ab84344069a5b172d43061);
+        
+    
+        var popup_a10d170072d27b70f13e07bc92d875cd = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5d9cb19030f28a7f9b6738b10744423d = $(`<div id="html_5d9cb19030f28a7f9b6738b10744423d" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">花蓮縣花蓮市</h4>                           <p><b>申請案號:</b> AB2502260001</p>                           <p><b>有效期限:</b> 2025/03/16​ ~ 2025/05/15​</p>                           <p><b>高度:</b> 0-2000ft</p>                       </div>                       </div>`)[0];
+                popup_a10d170072d27b70f13e07bc92d875cd.setContent(html_5d9cb19030f28a7f9b6738b10744423d);
+            
+        
+
+        polygon_9fa9dbc54e96e0dd95498043f08936d3.bindPopup(popup_a10d170072d27b70f13e07bc92d875cd)
+        ;
+
+        
+    
+    
+            polygon_9fa9dbc54e96e0dd95498043f08936d3.bindTooltip(
+                `<div>
+                     花蓮縣花蓮市 - AB2502260001 - 0-2000ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_c613a93139ab84344069a5b172d43061.addTo(map_85e2bd1aa7391aa6c4098de4f4e466e7);
+        
+    
+            var feature_group_ef9fa8a345ee5be70e32e24b673cc582 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var polygon_60c781d1c3864cea9e60b85fb2951669 = L.polygon(
+                [[23.995264503768357, 121.53673509473641], [23.186004464125276, 121.2077098559845], [23.12948041185625, 121.26480603928447], [23.455395064908405, 121.40452901239259], [23.436927130923706, 121.51436010713425], [23.938167101236424, 121.65930131788073], [23.995264503768357, 121.53673509473641]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_ef9fa8a345ee5be70e32e24b673cc582);
+        
+    
+        var popup_cfbd5b7d4815f266b4b9223994c32db3 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_300440daf684b731aceb7c7cd9afcfce = $(`<div id="html_300440daf684b731aceb7c7cd9afcfce" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">花蓮縣豐濱鄉</h4>                           <p><b>申請案號:</b> AB2503170016</p>                           <p><b>有效期限:</b> 2025/04/11​ ~ 2025/07/10</p>                           <p><b>高度:</b> 0-400ft</p>                       </div>                       </div>`)[0];
+                popup_cfbd5b7d4815f266b4b9223994c32db3.setContent(html_300440daf684b731aceb7c7cd9afcfce);
+            
+        
+
+        polygon_60c781d1c3864cea9e60b85fb2951669.bindPopup(popup_cfbd5b7d4815f266b4b9223994c32db3)
+        ;
+
+        
+    
+    
+            polygon_60c781d1c3864cea9e60b85fb2951669.bindTooltip(
+                `<div>
+                     花蓮縣豐濱鄉 - AB2503170016 - 0-400ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_17e4884b755c06f488d3bd907c01409f = L.polygon(
+                [[23.453105476593986, 121.50071302766611], [23.149365377817766, 121.18762279267166], [22.771462411380448, 121.03702614421724], [22.752289847686754, 121.0660281997429], [22.809716013519395, 121.11075738782749], [22.966603949381092, 121.39198968524761], [23.453105476593986, 121.50071302766611]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_ef9fa8a345ee5be70e32e24b673cc582);
+        
+    
+        var popup_da33d89e9340a2c65bd66fb763f6735b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3141f68dd17dc32f6c601333513576b9 = $(`<div id="html_3141f68dd17dc32f6c601333513576b9" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">台東縣關山鎮</h4>                           <p><b>申請案號:</b> AB2503170016</p>                           <p><b>有效期限:</b> 2025/04/11​ ~ 2025/07/10</p>                           <p><b>高度:</b> 0-400ft</p>                       </div>                       </div>`)[0];
+                popup_da33d89e9340a2c65bd66fb763f6735b.setContent(html_3141f68dd17dc32f6c601333513576b9);
+            
+        
+
+        polygon_17e4884b755c06f488d3bd907c01409f.bindPopup(popup_da33d89e9340a2c65bd66fb763f6735b)
+        ;
+
+        
+    
+    
+            polygon_17e4884b755c06f488d3bd907c01409f.bindTooltip(
+                `<div>
+                     台東縣關山鎮 - AB2503170016 - 0-400ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_ef9fa8a345ee5be70e32e24b673cc582.addTo(map_85e2bd1aa7391aa6c4098de4f4e466e7);
+        
+    
+            var feature_group_613a441b9925875be7c30c804c04bbbc = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var polygon_fd82dc69416a839120c57cf55d1d4504 = L.polygon(
+                [[25.075828815037923, 121.5707679700116], [25.037240149960887, 121.57058457397018], [25.032695648562456, 121.64857784770528], [25.09994921107739, 121.6491719570021], [25.101657948445162, 121.5838366981605], [25.075906555959673, 121.58372840397156], [25.075828815037923, 121.5707679700116]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_613a441b9925875be7c30c804c04bbbc);
+        
+    
+        var popup_35428d6d7ff0597263255579e91a0414 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_526c22fd348963bb00f9d29408562c5d = $(`<div id="html_526c22fd348963bb00f9d29408562c5d" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">台北市內湖區南港區</h4>                           <p><b>申請案號:</b> AB2503180001</p>                           <p><b>有效期限:</b> 2025/04/12 ~ 2025/06/11</p>                           <p><b>高度:</b> 0-2000ft</p>                       </div>                       </div>`)[0];
+                popup_35428d6d7ff0597263255579e91a0414.setContent(html_526c22fd348963bb00f9d29408562c5d);
+            
+        
+
+        polygon_fd82dc69416a839120c57cf55d1d4504.bindPopup(popup_35428d6d7ff0597263255579e91a0414)
+        ;
+
+        
+    
+    
+            polygon_fd82dc69416a839120c57cf55d1d4504.bindTooltip(
+                `<div>
+                     台北市內湖區南港區 - AB2503180001 - 0-2000ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_6b3491868415a5b1c34fe8186e3d20b0 = L.polygon(
+                [[25.083721610318683, 121.52484352106879], [25.100090761973746, 121.52477898041477], [25.101256639454178, 121.48915924469698], [25.038570422936335, 121.48725521157257], [25.05464719697119, 121.53706718574033], [25.07972649503049, 121.53778182680477], [25.083721610318683, 121.52484352106879]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_613a441b9925875be7c30c804c04bbbc);
+        
+    
+        var popup_a563fda078ae32c97140e1bf90ba5108 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_dea9cecc08b1652d9d07eb932a500e69 = $(`<div id="html_dea9cecc08b1652d9d07eb932a500e69" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">台北市圓山</h4>                           <p><b>申請案號:</b> AB2503180001</p>                           <p><b>有效期限:</b> 2025/04/12 ~ 2025/06/11</p>                           <p><b>高度:</b> 0-2000ft</p>                       </div>                       </div>`)[0];
+                popup_a563fda078ae32c97140e1bf90ba5108.setContent(html_dea9cecc08b1652d9d07eb932a500e69);
+            
+        
+
+        polygon_6b3491868415a5b1c34fe8186e3d20b0.bindPopup(popup_a563fda078ae32c97140e1bf90ba5108)
+        ;
+
+        
+    
+    
+            polygon_6b3491868415a5b1c34fe8186e3d20b0.bindTooltip(
+                `<div>
+                     台北市圓山 - AB2503180001 - 0-2000ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_566e9350a8364cf72fb1256f98068ec2 = L.polygon(
+                [[24.81215042221816, 120.94036167825259], [24.803156188968963, 120.92720058153193], [24.78437769031376, 120.9480574388316], [24.810686147637835, 120.99173184822106], [24.824230065346534, 120.96877968276604], [24.809696310741824, 120.95186299050872], [24.81215042221816, 120.94036167825259]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_613a441b9925875be7c30c804c04bbbc);
+        
+    
+        var popup_f292defc3f75978308ab147805901ecd = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b5960cbe1ebb5868d0bca03ff282432f = $(`<div id="html_b5960cbe1ebb5868d0bca03ff282432f" style="width: 100.0%; height: 100.0%;">                       <div style="font-family: Arial, sans-serif; min-width: 200px;">                           <h4 style="margin-bottom: 5px;">新竹市北區</h4>                           <p><b>申請案號:</b> AB2503180001</p>                           <p><b>有效期限:</b> 2025/04/12 ~ 2025/06/11</p>                           <p><b>高度:</b> 0-1000ft</p>                       </div>                       </div>`)[0];
+                popup_f292defc3f75978308ab147805901ecd.setContent(html_b5960cbe1ebb5868d0bca03ff282432f);
+            
+        
+
+        polygon_566e9350a8364cf72fb1256f98068ec2.bindPopup(popup_f292defc3f75978308ab147805901ecd)
+        ;
+
+        
+    
+    
+            polygon_566e9350a8364cf72fb1256f98068ec2.bindTooltip(
+                `<div>
+                     新竹市北區 - AB2503180001 - 0-1000ft
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_613a441b9925875be7c30c804c04bbbc.addTo(map_85e2bd1aa7391aa6c4098de4f4e466e7);
+        
+    
+            var layer_control_e2149109c4e6ac4b7e5f9c9db22fbe86_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_697afc725570923c24833035f4ac1daf,
+                },
+                overlays :  {
+                    "2025 \u590f\u5b63\u5927\u53f0\u5317\u5730\u5340\u7d00\u9304\u7247\u62cd\u651d(\u9ad8\u7a7a)\u7a7a\u62cd\u651d\u5f71" : feature_group_272ff303a365699c9abbcf1710813b02,
+                    "2025 \u590f\u5b63\u5b9c\u862d\u65b0\u7af9\u7d00\u9304\u7247\u62cd\u651d \u7a7a\u62cd\u651d\u5f71" : feature_group_ba49b1fe58c50d1058949be7421de7d7,
+                    "2025\u590f\u5b63\u53f0\u4e2d\u53f0\u5357\u9ad8\u96c4\u7d00\u9304\u7247\u62cd\u651d(\u9ad8\u7a7a)\u7a7a\u62cd\u651d\u5f71" : feature_group_9f31dd008a4761bbce4217e8a34fdd3d,
+                    "2025\u590f\u5b63\u53f0\u5317\u7d00\u9304\u7247\u62cd\u651d(\u9ad8\u7a7a)\u7a7a\u62cd\u651d\u5f71" : feature_group_7cc5b9e55ff040101f22c71e7a291226,
+                    "2025\u6625\u5b63\u65b0\u5317\u57fa\u9686\u53f0\u4e2d\u57ce\u5e02\u7d00\u9304\u7247\u62cd\u651d \u7a7a\u62cd\u651d\u5f71" : feature_group_cb05715421292b36ae1b3bd4fb96f943,
+                    "\t2025\u6625\u5b63\u6843\u5712\u5730\u5340\u7d00\u9304\u7247\u62cd\u651d \u7a7a\u62cd\u651d\u5f71\uff08\u9ad8\u7a7a\uff09" : feature_group_f08578bca71f313ae195c8c8b0ceaab0,
+                    "\u53f0\u5317\u5f70\u5316\u96f2\u6797\u9ad8\u96c4\u57ce\u5e02\u7d00\u9304\u7247\u62cd\u651d \u7a7a\u62cd\u651d\u5f71" : feature_group_aa983c340f5d0845a1e559a538fa3ab2,
+                    "2025\u6625\u5b63\u82b1\u84ee\u7d00\u9304\u7247\u62cd\u651d \u7a7a\u62cd\u651d\u5f71\uff08\u9ad8\u7a7a\uff09" : feature_group_c613a93139ab84344069a5b172d43061,
+                    "2025\u82b1\u6771\u570b\u969b\u81ea\u884c\u8eca\u8cfd \u7a7a\u62cd\u651d\u5f71" : feature_group_ef9fa8a345ee5be70e32e24b673cc582,
+                    "2025\u6625\u5b63\u53f0\u5317\u65b0\u7af9\u7d00\u9304\u7247\u62cd\u651d\uff08\u9ad8\u7a7a\uff09 \u7a7a\u62cd\u651d\u5f71" : feature_group_613a441b9925875be7c30c804c04bbbc,
+                },
+            };
+            let layer_control_e2149109c4e6ac4b7e5f9c9db22fbe86 = L.control.layers(
+                layer_control_e2149109c4e6ac4b7e5f9c9db22fbe86_layers.base_layers,
+                layer_control_e2149109c4e6ac4b7e5f9c9db22fbe86_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_85e2bd1aa7391aa6c4098de4f4e466e7);
+
+        
+</script>
+</html>
